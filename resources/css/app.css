@@ -7,6 +7,10 @@
         scroll-behavior: smooth;
     }
 
+    [x-cloak] {
+        display: none !important;
+    }
+
     body {
         @apply bg-aether-mist text-aether-ink font-sans antialiased;
     }

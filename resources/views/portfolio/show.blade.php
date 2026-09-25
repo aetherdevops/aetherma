@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', $project->title.' — Æther')
-@section('description', $project->excerpt)
+@section('description', $project->excerpt ?: Str::limit(strip_tags((string) $project->body), 155) ?: $project->title.' — a project by Æther Marketing Agency.')
 
 @section('content')
 <article class="pt-28">

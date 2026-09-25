@@ -1,5 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -27,8 +28,25 @@ export default {
                 display: ['"Kumbh Sans"', ...defaultTheme.fontFamily.sans],
                 sans: ['Mulish', ...defaultTheme.fontFamily.sans],
             },
+            typography: ({ theme }) => ({
+                aether: {
+                    css: {
+                        '--tw-prose-body': theme('colors.aether.accent'),
+                        '--tw-prose-headings': theme('colors.aether.ink'),
+                        '--tw-prose-lead': theme('colors.aether.accent'),
+                        '--tw-prose-links': theme('colors.aether.primary'),
+                        '--tw-prose-bold': theme('colors.aether.ink'),
+                        '--tw-prose-counters': theme('colors.aether.soft'),
+                        '--tw-prose-bullets': theme('colors.aether.soft'),
+                        '--tw-prose-hr': theme('colors.aether.line'),
+                        '--tw-prose-quotes': theme('colors.aether.ink'),
+                        '--tw-prose-quote-borders': theme('colors.aether.soft'),
+                        '--tw-prose-captions': theme('colors.aether.accent'),
+                    },
+                },
+            }),
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, typography],
 };

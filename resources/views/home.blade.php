@@ -4,8 +4,11 @@
 
 @section('content')
 <section id="top" class="relative flex min-h-[92vh] items-end overflow-hidden bg-aether-ink pt-24 text-white">
-    <video class="absolute inset-0 h-full w-full object-cover opacity-50" autoplay muted loop playsinline poster="{{ asset('media/about.png') }}">
-        <source src="{{ asset('media/hero.mp4') }}" type="video/mp4">
+    {{-- Sources are attached by resources/js/app.js only on larger screens without reduced-motion/data-saver; otherwise the poster stays. --}}
+    <video class="absolute inset-0 h-full w-full object-cover opacity-50" muted loop playsinline preload="none" aria-hidden="true"
+           poster="{{ asset('media/hero-poster.webp') }}" data-hero-video>
+        <source data-src="{{ asset('media/hero.webm') }}" type="video/webm">
+        <source data-src="{{ asset('media/hero.mp4') }}" type="video/mp4">
     </video>
     <div class="absolute inset-0 bg-gradient-to-t from-aether-ink via-aether-ink/70 to-aether-primary/40"></div>
     <div class="container-narrow relative section-pad !pt-0">
@@ -65,7 +68,7 @@
 
 <section id="about" class="section-pad bg-white">
     <div class="container-narrow grid items-center gap-12 lg:grid-cols-2">
-        <img src="{{ asset('media/about.png') }}" alt="About Æther" class="w-full rounded-2xl object-cover shadow-lg">
+        <img src="{{ asset('media/about.webp') }}" alt="The Æther team planning a campaign around a table" width="988" height="988" loading="lazy" decoding="async" class="w-full rounded-2xl object-cover shadow-lg">
         <div>
             <p class="text-sm font-semibold uppercase tracking-[0.18em] text-aether-accent">Why Choose</p>
             <h2 class="mt-3 text-3xl md:text-4xl">Æther Marketing Agency</h2>
@@ -98,7 +101,7 @@
             @forelse ($projects as $project)
                 <a href="{{ route('portfolio.show', $project) }}" class="group overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 transition hover:-translate-y-1 hover:bg-white/10">
                     @if ($project->coverUrl())
-                        <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }}" class="aspect-[5/4] w-full object-cover transition duration-500 group-hover:scale-105">
+                        <img src="{{ $project->coverUrl() }}" alt="{{ $project->title }}" loading="lazy" decoding="async" class="aspect-[5/4] w-full object-cover transition duration-500 group-hover:scale-105">
                     @endif
                     <div class="p-5">
                         <h3 class="text-xl text-white">{{ $project->title }}</h3>
@@ -123,14 +126,18 @@
         </div>
         <form method="POST" action="{{ route('contact.store') }}" class="space-y-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-aether-line/70 md:p-8">
             @csrf
+            <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+                <label for="website">Leave this field empty</label>
+                <input id="website" type="text" name="website" tabindex="-1" autocomplete="off">
+            </div>
             <div>
                 <label class="mb-1 block text-sm font-semibold" for="name">Name</label>
-                <input id="name" name="name" value="{{ old('name') }}" required class="w-full rounded-md border-aether-line focus:border-aether-primary focus:ring-aether-primary">
+                <input id="name" name="name" autocomplete="name" value="{{ old('name') }}" required class="w-full rounded-md border-aether-line focus:border-aether-primary focus:ring-aether-primary">
                 @error('name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
             <div>
                 <label class="mb-1 block text-sm font-semibold" for="email">Email</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required class="w-full rounded-md border-aether-line focus:border-aether-primary focus:ring-aether-primary">
+                <input id="email" type="email" name="email" autocomplete="email" value="{{ old('email') }}" required class="w-full rounded-md border-aether-line focus:border-aether-primary focus:ring-aether-primary">
                 @error('email') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
             <div>
