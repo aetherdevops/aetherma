@@ -1,3 +1,12 @@
+/* Self-hosted fonts: no request to Google (faster, and no visitor IPs shared with a third party). */
+@import '@fontsource/kumbh-sans/latin-500.css';
+@import '@fontsource/kumbh-sans/latin-600.css';
+@import '@fontsource/kumbh-sans/latin-700.css';
+@import '@fontsource/mulish/latin-400.css';
+@import '@fontsource/mulish/latin-500.css';
+@import '@fontsource/mulish/latin-600.css';
+@import '@fontsource/mulish/latin-700.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

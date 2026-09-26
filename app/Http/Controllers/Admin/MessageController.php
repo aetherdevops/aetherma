@@ -5,21 +5,42 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class MessageController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $messages = ContactMessage::latest()->paginate(20);
+        $filter = $request->query('filter') === 'unread' ? 'unread' : 'all';
 
-        return view('admin.messages.index', compact('messages'));
+        $messages = ContactMessage::query()
+            ->when($filter === 'unread', fn ($query) => $query->unread())
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
+
+        return view('admin.messages.index', compact('messages', 'filter'));
+    }
+
+    public function toggleRead(ContactMessage $message): RedirectResponse
+    {
+        $message->forceFill(['read_at' => $message->isRead() ? null : now()])->save();
+
+        return back();
+    }
+
+    public function markAllRead(): RedirectResponse
+    {
+        ContactMessage::unread()->update(['read_at' => now()]);
+
+        return back()->with('status', 'All messages marked as read.');
     }
 
     public function destroy(ContactMessage $message): RedirectResponse
     {
         $message->delete();
 
-        return redirect()->route('admin.messages.index')->with('status', 'Message deleted.');
+        return back()->with('status', 'Message deleted.');
     }
 }

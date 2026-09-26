@@ -11,6 +11,9 @@ class PortfolioController extends Controller
     {
         abort_unless($project->is_published, 404);
 
-        return view('portfolio.show', compact('project'));
+        $project->load('media');
+        [$previous, $next] = $project->neighbours();
+
+        return view('portfolio.show', compact('project', 'previous', 'next'));
     }
 }

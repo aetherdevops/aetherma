@@ -16,6 +16,9 @@
     <div class="rounded-xl bg-white p-6 shadow-sm">
         <p class="text-sm text-slate-500">Messages</p>
         <p class="mt-2 text-3xl font-bold text-aether-primary">{{ $messageCount }}</p>
+        @if ($unreadCount)
+            <a href="{{ route('admin.messages.index', ['filter' => 'unread']) }}" class="mt-1 inline-block text-sm font-semibold text-aether-soft hover:underline">{{ $unreadCount }} unread</a>
+        @endif
     </div>
 </div>
 
@@ -27,7 +30,7 @@
     <ul class="mt-4 divide-y">
         @forelse ($recentMessages as $message)
             <li class="py-3">
-                <p class="font-semibold">{{ $message->name }} <span class="font-normal text-slate-500">&lt;{{ $message->email }}&gt;</span></p>
+                <p class="font-semibold">@unless ($message->isRead())<span class="mr-1 inline-block h-2 w-2 rounded-full bg-aether-soft align-middle" aria-hidden="true"></span>@endunless{{ $message->name }} <span class="font-normal text-slate-500">&lt;{{ $message->email }}&gt;</span></p>
                 <p class="mt-1 text-sm text-slate-600">{{ \Illuminate\Support\Str::limit($message->message, 120) }}</p>
             </li>
         @empty

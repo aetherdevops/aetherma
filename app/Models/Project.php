@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
@@ -32,21 +32,31 @@ class Project extends Model
         return 'slug';
     }
 
+    public function media(): HasMany
+    {
+        return $this->hasMany(ProjectMedia::class)->orderBy('sort_order')->orderBy('id');
+    }
+
     public function coverUrl(): ?string
     {
-        if (! $this->cover_image) {
-            return null;
+        return $this->cover_image ? ProjectMedia::publicUrl($this->cover_image) : null;
+    }
+
+    /**
+     * Neighbouring published projects in public display order, for prev/next links.
+     *
+     * @return array{0: ?Project, 1: ?Project}
+     */
+    public function neighbours(): array
+    {
+        $ordered = self::published()->get(['id', 'title', 'slug', 'cover_image'])->values();
+        $index = $ordered->search(fn (Project $p) => $p->id === $this->id);
+
+        if ($index === false) {
+            return [null, null];
         }
 
-        if (Str::startsWith($this->cover_image, ['http://', 'https://', '/'])) {
-            return $this->cover_image;
-        }
-
-        if (Str::startsWith($this->cover_image, 'projects/')) {
-            return asset('storage/'.$this->cover_image);
-        }
-
-        return asset($this->cover_image);
+        return [$ordered->get($index - 1), $ordered->get($index + 1)];
     }
 
     public function scopePublished($query)

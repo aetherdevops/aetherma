@@ -77,13 +77,44 @@ php artisan db:seed --force
 
 If the host has no SSH Node, build assets locally (`npm run build`) and upload `public/build`.
 
-## What is included (v1)
+## Site content settings
 
-- Public home: hero, features, services, about, portfolio, contact
-- Portfolio detail pages from DB
-- Admin: dashboard, projects CRUD (cover upload), contact messages
+Contact details, social links and analytics live in `.env` (see `config/site.php`).
+Anything left empty is hidden, so the site never shows placeholder details:
+
+| Variable | Shown as |
+| --- | --- |
+| `SITE_EMAIL`, `SITE_PHONE`, `SITE_LOCATION` | Contact section, footer, Google structured data |
+| `SITE_MAP_URL` | Makes the location a Google Maps link |
+| `SITE_BOOKING_URL` | "Book a free call" buttons (Calendly etc.) |
+| `SOCIAL_INSTAGRAM`, `SOCIAL_LINKEDIN`, `SOCIAL_FACEBOOK`, `SOCIAL_TIKTOK`, `SOCIAL_BEHANCE` | Footer links + structured data |
+| `ANALYTICS_PLAUSIBLE_DOMAIN` | Cookieless analytics (no banner needed) |
+| `ANALYTICS_GA4_ID` | Google Analytics 4, loaded only after cookie consent; the banner appears automatically |
+
+Run `php artisan config:cache` after changing `.env` on production.
+
+The privacy page (`/privacy`) adapts to these settings, but have it reviewed for your
+jurisdiction before launch, and update `SITE_PRIVACY_UPDATED` when you change it.
+
+## Uploads
+
+Project covers go up to 5 MB and gallery files (images, MP4/WebM) up to 20 MB each. Many
+cPanel hosts default PHP to 2 MB uploads, so raise these in cPanel → *MultiPHP INI Editor*:
+`upload_max_filesize = 24M`, `post_max_size = 128M`. Export images around 1600px wide (WebP
+or JPG) to keep pages fast.
+
+## What is included
+
+- Public home: hero, services, about, portfolio, testimonials (shown once one is published), contact
+- Portfolio detail pages with gallery (images + video) and previous/next navigation
+- SEO: meta description, canonical, Open Graph / X cards, JSON-LD, `/sitemap.xml`, `/robots.txt`
+  (outside production robots.txt blocks all crawlers so staging copies aren't indexed)
+- Privacy & cookies page, optional analytics with consent banner
+- Admin: dashboard, projects (rich-text editor, cover, gallery, one-click publish), testimonials,
+  contact inbox (unread/read, reply by email), account settings
 - Contact form: email notification, honeypot + rate limiting (3/min, 10/hour per IP)
-- Brand assets copied from the old WP uploads
+- Project descriptions are sanitized (on save and on display), so pasted scripts never run
+- Self-hosted fonts, long-lived caching for built assets, basic security headers (`public/.htaccess`)
 
 ## Out of scope (later)
 

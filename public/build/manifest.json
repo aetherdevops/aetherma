@@ -1,6 +1,62 @@
 {
+  "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-500-normal.woff": {
+    "file": "assets/kumbh-sans-latin-500-normal-DHYCnnJh.woff",
+    "src": "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-500-normal.woff"
+  },
+  "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-500-normal.woff2": {
+    "file": "assets/kumbh-sans-latin-500-normal-jfc1ePnL.woff2",
+    "src": "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-500-normal.woff2"
+  },
+  "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-600-normal.woff": {
+    "file": "assets/kumbh-sans-latin-600-normal-BmNIF_rA.woff",
+    "src": "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-600-normal.woff"
+  },
+  "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-600-normal.woff2": {
+    "file": "assets/kumbh-sans-latin-600-normal-CL4gQMAm.woff2",
+    "src": "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-600-normal.woff2"
+  },
+  "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-700-normal.woff": {
+    "file": "assets/kumbh-sans-latin-700-normal-C_MMDE4Y.woff",
+    "src": "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-700-normal.woff"
+  },
+  "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-700-normal.woff2": {
+    "file": "assets/kumbh-sans-latin-700-normal-CYB4l3qe.woff2",
+    "src": "node_modules/@fontsource/kumbh-sans/files/kumbh-sans-latin-700-normal.woff2"
+  },
+  "node_modules/@fontsource/mulish/files/mulish-latin-400-normal.woff": {
+    "file": "assets/mulish-latin-400-normal-BRmeVNaI.woff",
+    "src": "node_modules/@fontsource/mulish/files/mulish-latin-400-normal.woff"
+  },
+  "node_modules/@fontsource/mulish/files/mulish-latin-400-normal.woff2": {
+    "file": "assets/mulish-latin-400-normal-C9Snyl1s.woff2",
+    "src": "node_modules/@fontsource/mulish/files/mulish-latin-400-normal.woff2"
+  },
+  "node_modules/@fontsource/mulish/files/mulish-latin-500-normal.woff": {
+    "file": "assets/mulish-latin-500-normal-CoJZbj2t.woff",
+    "src": "node_modules/@fontsource/mulish/files/mulish-latin-500-normal.woff"
+  },
+  "node_modules/@fontsource/mulish/files/mulish-latin-500-normal.woff2": {
+    "file": "assets/mulish-latin-500-normal-BoPlPdCZ.woff2",
+    "src": "node_modules/@fontsource/mulish/files/mulish-latin-500-normal.woff2"
+  },
+  "node_modules/@fontsource/mulish/files/mulish-latin-600-normal.woff": {
+    "file": "assets/mulish-latin-600-normal-BgWMv2vh.woff",
+    "src": "node_modules/@fontsource/mulish/files/mulish-latin-600-normal.woff"
+  },
+  "node_modules/@fontsource/mulish/files/mulish-latin-600-normal.woff2": {
+    "file": "assets/mulish-latin-600-normal-BSghSUeJ.woff2",
+    "src": "node_modules/@fontsource/mulish/files/mulish-latin-600-normal.woff2"
+  },
+  "node_modules/@fontsource/mulish/files/mulish-latin-700-normal.woff": {
+    "file": "assets/mulish-latin-700-normal-LuPokTVX.woff",
+    "src": "node_modules/@fontsource/mulish/files/mulish-latin-700-normal.woff"
+  },
+  "node_modules/@fontsource/mulish/files/mulish-latin-700-normal.woff2": {
+    "file": "assets/mulish-latin-700-normal-DP36JSCV.woff2",
+    "src": "node_modules/@fontsource/mulish/files/mulish-latin-700-normal.woff2"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-CO9LgaAK.css",
+    "file": "assets/app-BEJCgqHM.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -8,8 +64,17 @@
       "app.css"
     ]
   },
+  "resources/js/admin.js": {
+    "file": "assets/admin-CcJX9IG_.js",
+    "name": "admin",
+    "src": "resources/js/admin.js",
+    "isEntry": true,
+    "css": [
+      "assets/admin-CpXwwO1r.css"
+    ]
+  },
   "resources/js/app.js": {
-    "file": "assets/app-jFmksET5.js",
+    "file": "assets/app-ZqrSJsjN.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
