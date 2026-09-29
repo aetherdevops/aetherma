@@ -32,12 +32,16 @@
 
     <div>
         <label class="mb-1 block text-sm font-semibold" for="excerpt">Excerpt</label>
-        <textarea id="excerpt" name="excerpt" rows="2" class="w-full rounded-md border-slate-300">{{ old('excerpt', $project->excerpt ?? '') }}</textarea>
+        <textarea id="excerpt" name="excerpt" rows="2" maxlength="255" class="w-full rounded-md border-slate-300">{{ old('excerpt', $project->excerpt ?? '') }}</textarea>
+        <p class="mt-1 text-xs text-slate-500">One or two sentences. Shown on the portfolio card and in Google / social link previews.</p>
+        @error('excerpt') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
 
     <div>
-        <label class="mb-1 block text-sm font-semibold" for="body">Body (HTML allowed)</label>
-        <textarea id="body" name="body" rows="8" class="w-full rounded-md border-slate-300 font-mono text-sm">{{ old('body', $project->body ?? '') }}</textarea>
+        <label class="mb-1 block text-sm font-semibold" for="body-editor">Description</label>
+        <input id="body" type="hidden" name="body" value="{{ old('body', $project->body ?? '') }}">
+        <trix-editor id="body-editor" input="body" class="trix-content prose prose-aether min-h-[14rem] max-w-none rounded-md border border-slate-300 bg-white"></trix-editor>
+        @error('body') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2">
@@ -54,11 +58,41 @@
     <div>
         <label class="mb-1 block text-sm font-semibold" for="cover">Cover image</label>
         <input id="cover" type="file" name="cover" accept="image/*" class="w-full text-sm">
+        <p class="mt-1 text-xs text-slate-500">Shown on the portfolio card (5:4 crop) and as the social preview image. Max 5 MB.</p>
         @if ($isEdit && $project->coverUrl())
             <img src="{{ $project->coverUrl() }}" alt="" class="mt-3 h-28 rounded object-cover">
         @endif
         @error('cover') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
     </div>
+
+    <fieldset class="rounded-lg border border-slate-200 p-4">
+        <legend class="px-1 text-sm font-semibold">Gallery</legend>
+        <p class="text-xs text-slate-500">Extra images or short videos shown on the project page (JPG, PNG, WebP, GIF, MP4, WebM — up to 20 MB each). Export images at around 1600px wide.</p>
+
+        @if ($isEdit && $project->media->isNotEmpty())
+            <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach ($project->media as $media)
+                    <li class="rounded-lg border border-slate-200 p-3">
+                        @if ($media->isVideo())
+                            <video src="{{ $media->url() }}" poster="{{ $media->posterUrl() }}" class="h-28 w-full rounded bg-slate-100 object-cover" muted preload="metadata"></video>
+                        @else
+                            <img src="{{ $media->url() }}" alt="" class="h-28 w-full rounded bg-slate-100 object-cover" loading="lazy">
+                        @endif
+                        <label class="sr-only" for="media_caption_{{ $media->id }}">Caption</label>
+                        <input id="media_caption_{{ $media->id }}" name="media_caption[{{ $media->id }}]" value="{{ old('media_caption.'.$media->id, $media->caption) }}" placeholder="Caption (optional)" class="mt-2 w-full rounded-md border-slate-300 text-sm">
+                        <label class="mt-2 flex items-center gap-2 text-xs text-red-700">
+                            <input type="checkbox" name="remove_media[]" value="{{ $media->id }}"> Remove
+                        </label>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+
+        <label class="mt-4 block text-sm font-semibold" for="gallery">Add files</label>
+        <input id="gallery" type="file" name="gallery[]" multiple accept="image/*,video/mp4,video/webm" class="mt-1 w-full text-sm">
+        @error('gallery') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+        @error('gallery.*') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+    </fieldset>
 
     <label class="flex items-center gap-2 text-sm">
         <input type="checkbox" name="is_published" value="1" @checked(old('is_published', $project->is_published ?? true))>

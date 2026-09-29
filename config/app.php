@@ -123,4 +123,20 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | First Admin Account
+    |--------------------------------------------------------------------------
+    |
+    | Used by Database\Seeders\AdminUserSeeder. Read through config (not env())
+    | so seeding still works after `php artisan config:cache`.
+    |
+    */
+
+    'admin' => [
+        'name' => env('ADMIN_NAME', 'Aether Admin'),
+        'email' => env('ADMIN_EMAIL', 'admin@aether.local'),
+        'password' => env('ADMIN_PASSWORD'),
+    ],
+
 ];

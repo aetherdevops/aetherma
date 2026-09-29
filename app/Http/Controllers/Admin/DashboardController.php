@@ -15,6 +15,7 @@ class DashboardController extends Controller
             'projectCount' => Project::count(),
             'publishedCount' => Project::where('is_published', true)->count(),
             'messageCount' => ContactMessage::count(),
+            'unreadCount' => ContactMessage::unread()->count(),
             'recentMessages' => ContactMessage::latest()->take(5)->get(),
         ]);
     }

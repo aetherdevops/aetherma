@@ -115,4 +115,16 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Contact Form Notifications
+    |--------------------------------------------------------------------------
+    |
+    | New contact form submissions are emailed to this address (comma
+    | separated for several). Leave empty to only store them in the admin.
+    |
+    */
+
+    'contact_to' => array_filter(array_map('trim', explode(',', (string) env('CONTACT_NOTIFY_EMAIL', '')))),
+
 ];

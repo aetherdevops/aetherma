@@ -1,1 +1,31 @@
+# Safety net for hosts where the project root is web-accessible
+# (e.g. uploaded into a public_html subfolder). The recommended setup is to
+# point the domain's document root at public/ so this file is never used.
+#
+# Only public/ (handled by public/.htaccess) and the redirecting index.php
+# are reachable; .env, vendor/, storage/, config files etc. return 403.
+
 DirectoryIndex index.php
+Options -Indexes
+
+# Never serve dotfiles (.env, .git, .htaccess ...), even without mod_rewrite.
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Deny well-known sensitive files by name as a fallback without mod_rewrite.
+<FilesMatch "^(artisan|composer\.(json|lock)|package(-lock)?\.json|phpunit\.xml|vite\.config\.js|tailwind\.config\.js|postcss\.config\.js|README\.md)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Allowed: the public/ folder and the root index.php redirect.
+    RewriteRule ^$ - [L]
+    RewriteRule ^index\.php$ - [L]
+    RewriteRule ^public(/|$) - [L]
+
+    # Everything else in the project root is off-limits.
+    RewriteRule ^ - [F,L]
+</IfModule>
