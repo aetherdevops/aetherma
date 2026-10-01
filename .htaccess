@@ -1,9 +1,7 @@
-# Safety net for hosts where the project root is web-accessible
-# (e.g. uploaded into a public_html subfolder). The recommended setup is to
-# point the domain's document root at public/ so this file is never used.
-#
-# Only public/ (handled by public/.htaccess) and the redirecting index.php
-# are reachable; .env, vendor/, storage/, config files etc. return 403.
+# For hosts where the project root is the web root (e.g. cloned straight into
+# public_html). Every request is served from public/ internally, so the site
+# works on the bare domain and .env, vendor/, storage/ etc. are never reachable.
+# Pointing the document root at public/ directly makes this file unused.
 
 DirectoryIndex index.php
 Options -Indexes
@@ -21,11 +19,6 @@ Options -Indexes
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Allowed: the public/ folder and the root index.php redirect.
-    RewriteRule ^$ - [L]
-    RewriteRule ^index\.php$ - [L]
     RewriteRule ^public(/|$) - [L]
-
-    # Everything else in the project root is off-limits.
-    RewriteRule ^ - [F,L]
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
